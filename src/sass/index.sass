@@ -1,3 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+@import "~normalize.css";
+
+@import variables
+@import mixins
+@import header
+@import toolbar
+@import formulabar
+@import table
+@import dashboard
+
 body
-  color: red
-  background-color: tomato
+  font-family: 'Roboto', sans-serif
+
+* 
+  margin: 0
+  padding: 0
+  box-sizing: border-box
+
+.excel
+  max-width: 100%
+  height: 100%
+  color: #888
+
+
+.excel-panel
+  position: fixed
+  left: 0
+  right: 0
+  padding-left: 15px
+  border: 1px solid $border-color
+  border-top: 0
+
+.edit-div
+  outline-color: $input-focus

@@ -1,0 +1,12 @@
+@import _variables
+@import _mixins
+
+.toolbar
+  top: $header-height
+  height: $toolbar-height
+  &__list
+    height: 100%
+    display: flex
+    align-items: center
+    .button
+      @include button()

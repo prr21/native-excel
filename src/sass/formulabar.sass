@@ -1,0 +1,22 @@
+@import _variables
+@import _mixins
+
+.formulabar
+  display: flex
+  align-items: center
+  top: $header-height + $toolbar-height
+  height: $row-height
+
+  &__ceil
+    color: #c2c3c5
+    font-style: italic
+    border-right: 1px solid $border-color
+    width: $info-cell-width - 15px
+
+  &__input 
+    height: 100%
+    width: 100%
+    padding-left: 10px
+    font-size: 16px
+    line-height: $row-height
+    outline: none
