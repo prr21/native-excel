@@ -13,7 +13,8 @@ module.exports = {
   resolve: {
     extensions: ['.js'],
     alias: {
-      '@': path.resolve(__dirname, 'src')
+      '@': path.resolve(__dirname, 'src'),
+      '@core': path.resolve(__dirname, 'src/core'),
     }
   },
   plugins: [
@@ -44,7 +45,8 @@ module.exports = {
         loader: {
           loader: 'babel-loader',
           options: {
-            presets: ["@babel/preset-env"]
+            presets: ["@babel/preset-env"],
+            plugins: ['@babel/plugin-proposal-class-properties']
           }
         }
       }

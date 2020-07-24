@@ -9,19 +9,24 @@ export default class Excel {
   getRoot(){
     let $root = $.create('div', 'excel');
 
-    this.components.forEach(Component => {
+    this.components = this.components.map(Component => {
       let $el = $.create('div', Component.classes);
-
       const component = new Component($el);
-      $el.html(component.toHTML());
 
+      $el.html(component.toHTML());
       $root.append($el);
+
+      return component
     })
     return $root
   }
 
   render(){
     this.$app.append( this.getRoot() );
+
+    this.components.forEach(component => {
+      component.init();
+    })
   }
 
 }
