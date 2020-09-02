@@ -5,6 +5,10 @@ class Dom {
       : selector
   }
 
+  get data(){
+    return this.$el.dataset
+  }
+
   html(str){
     if (typeof str === 'string'){
       this.$el.innerHTML = str;
@@ -19,6 +23,26 @@ class Dom {
 
   off(event, callback){
     this.$el.removeEventListener(event, callback)
+  }
+
+  parent(elem){
+    return $( this.$el.closest(elem) );
+  }
+
+  getCoords(){
+    return this.$el.getBoundingClientRect();
+  }
+
+  findAll(selector){
+    return this.$el.querySelectorAll(selector)
+  }
+
+  css(styles = {}){
+    Object
+      .keys(styles)
+      .forEach(
+        key => this.$el.style[key] = styles[key]
+      )
   }
 
   append(node){
