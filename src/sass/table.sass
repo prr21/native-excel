@@ -16,6 +16,7 @@
     height: $row-height
 
     &__info
+      position: relative
       display: flex
       justify-content: center
       align-items: center
@@ -24,11 +25,13 @@
       height: 100%
       border: 1px solid $border-color
       border-top: 0
+      user-select: none
       
     &__data
       display: flex
 
-    .ceil-column
+    .column
+      position: relative
       display: flex
       justify-content: center
       align-items: center
@@ -39,6 +42,7 @@
       border: 1px solid $border-color
       border-top: 0
       border-left: 0
+      user-select: none
     
     .ceil
       width: $cell-width
@@ -59,3 +63,30 @@
         outline: 2px solid $input-focus
         border: none
         z-index: 2
+
+  .col-resize, .row-resize
+    position: absolute
+    bottom: 0
+    right: 0
+    background: $input-focus
+    opacity: 0
+    z-index: 10
+
+    &:hover
+      opacity: 1
+
+
+  .col-resize
+    top: 0
+    width: 4px
+
+    &:hover
+      cursor: col-resize
+
+
+  .row-resize
+    left: 0
+    height: 4px
+
+    &:hover
+      cursor: row-resize

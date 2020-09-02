@@ -31,20 +31,26 @@ function generateRows(x = 30, y = 0){
   return rows.join('');
 }
 
-function createCeil(){
-  return `<div class="ceil" contenteditable="true"></div>`
+function createCeil(_, colIndex){
+  return `<div class="ceil" data-col="${colIndex}" contenteditable="true"></div>`
 }
 
-function createCol(title){
-  return `<div class="ceil-column"> ${title} </div>`
+function createCol(title, colIndex){
+  return `
+    <div class="column" data-col="${colIndex}" data-type="resize">
+      ${title} 
+      <div class="col-resize" data-resize="col"></div>
+    </div>
+  `
 }
 
 function wrapInRow(elements, index){
   return `
-    <div class="row">
+    <div class="row" data-type="resize">
 
       <div class="row__info">
         <div class="row__info__ceil-info"> ${ index || '' } </div>
+        <div class="row-resize" data-resize="row"></div>
       </div>
 
       <div class="row__data"> 
