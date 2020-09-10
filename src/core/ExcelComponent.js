@@ -5,6 +5,8 @@ export default class ExcelComponent extends DomListener {
     super($component, options.listeners)
   }
 
+  prepare(){}
+
   init(){
     this.initDOMListeners();
   }

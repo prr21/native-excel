@@ -19,20 +19,29 @@ function generateColumns(count = 20){
 function generateRows(x = 30, y = 0){
   let rows = [];
 
-  for (let i = 0; i < x; i++){
+  for (let rowInd = 0; rowInd < x; rowInd++){
     const ceils = new Array(y)
         .fill('')
-        .map(createCeil)
+        .map(createCeil(rowInd))
         .join('');
 
-    let row = wrapInRow(ceils, i+1)
-    rows.push(row)
+    const rowDiv = wrapInRow(ceils, rowInd+1)
+    rows.push(rowDiv)
   }
   return rows.join('');
 }
 
-function createCeil(_, colIndex){
-  return `<div class="ceil" data-col="${colIndex}" contenteditable="true"></div>`
+function createCeil(rowId){
+  return (_, colIndex) => {
+
+    return `
+      <div 
+        class="ceil" 
+        data-col="${colIndex}" 
+        data-id="${rowId}:${colIndex}"
+        contenteditable="true">
+      </div>`
+  }
 }
 
 function createCol(title, colIndex){
