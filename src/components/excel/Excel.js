@@ -26,6 +26,7 @@ export default class Excel {
 
     this.components.forEach(component => {
       component.init();
+      component.prepare();
     })
   }
 
