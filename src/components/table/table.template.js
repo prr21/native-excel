@@ -39,7 +39,7 @@ function createCeil(rowId){
         class="ceil" 
         data-col="${colIndex}" 
         data-id="${rowId}:${colIndex}"
-        contenteditable="true">
+        contenteditable>
       </div>`
   }
 }
