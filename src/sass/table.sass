@@ -47,7 +47,7 @@
     .ceil
       width: $cell-width
       border: 1px solid $border-color
-      padding: 5px
+      padding: 3px
       border-top: 0
       border-left: 0
       color: #111
@@ -56,16 +56,19 @@
 
 
       &.selected
-        outline: 1px solid $input-focus
+        outline: 1px solid $input-selected
         background-color: $ceil-selected
         border: none
         z-index: 2
+      &:focus
+        outline-width: 2px
+        z-index: 3
 
   .col-resize, .row-resize
     position: absolute
     bottom: 0
     right: 0
-    background: $input-focus
+    background: $input-selected
     opacity: 0
     z-index: 10
 
