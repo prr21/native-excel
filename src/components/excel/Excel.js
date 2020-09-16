@@ -25,8 +25,8 @@ export default class Excel {
     this.$app.append( this.getRoot() );
 
     this.components.forEach(component => {
-      component.init();
       component.prepare();
+      component.init();
     })
   }
 
