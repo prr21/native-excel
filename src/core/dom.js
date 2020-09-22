@@ -9,6 +9,17 @@ class Dom {
     return this.$el.dataset
   }
 
+  id(parse) {
+    if (parse) {
+      let parsed = this.id().split(':')
+      return {
+        row: +parsed[0],
+        col: +parsed[1]
+      }
+    }
+    return this.data.id
+  }
+
   html(str) {
     if (typeof str === 'string') {
       this.$el.innerHTML = str;
@@ -72,6 +83,16 @@ class Dom {
 
   has(className) {
     return [...this.$el.classList].includes(className)
+  }
+
+  onFocus() {
+    this.$el.focus()
+    return this
+  }
+
+  offFocus() {
+    this.$el.blur()
+    return this
   }
 
 }
