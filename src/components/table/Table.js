@@ -1,60 +1,74 @@
 import ExcelComponent from '@core/ExcelComponent'
-import { $ } from '../../core/dom';
 import TableSelection from './TableSelection'
-import {createTable} from './table.template'
-import {resizeHandler} from './table.resize'
+import {
+  $
+} from '../../core/dom';
+import {
+  createTable
+} from './table.template'
+import {
+  resizeHandler
+} from './table.resize'
+import {
+  isCeil,
+  isResize,
+  matrix
+} from './table.functions';
 
 export default class Table extends ExcelComponent {
   static classes = 'table';
 
-  constructor($root){
+  constructor($root) {
     super($root, {
       name: "Table",
       listeners: ['mousedown']
     })
   }
 
-  prepare(){
+  prepare() {
     this.selection = new TableSelection();
   }
 
-  init(){
+  init() {
     super.init();
 
-    let initialCeil = '[data-id="0:0"]'
-
+    const initialCeil = '[data-id="0:0"]'
     const $ceil = this.$root.find(initialCeil)
-    $ceil.id = '0:0'
 
     this.selection.select($ceil)
-    this.selection.onFocus($ceil)
+    $ceil.onFocus()
   }
 
-  onMousedown(event){
-    let dataset = event.target.dataset;
+  onMousedown(event) {
     event.preventDefault()
 
-    if (dataset.resize){
+    if (isResize(event)) {
       resizeHandler(this.$root, event)
 
-    } else if (dataset.id){
-      const $ceil = $(event.target);
-      $ceil.id = dataset.id
+    } else if (isCeil(event)) {
+      const $ceil = $(event.target)
 
-      if (event.ctrlKey){
+      if (event.ctrlKey) {
         this.selection.selectByOne($ceil)
         return
 
-      } else if (event.shiftKey){
-        this.selection.selectGroup($ceil)
+      } else if (event.shiftKey) {
+        const currentGroup = this.selection.group;
+        const $currentCeil = currentGroup[currentGroup.length - 1]
+
+        const celectedIds = matrix($currentCeil, $ceil)
+          .map(id =>
+            this.$root.find(`[data-id="${id}"]`)
+          )
+        this.selection.selectGroup(celectedIds)
         return
       }
-      
+
       this.selection.selectOne($ceil)
     }
   }
 
-  toHTML(){
+  toHTML() {
     return createTable(30, 20);
   }
 }
