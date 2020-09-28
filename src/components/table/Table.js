@@ -1,19 +1,9 @@
 import ExcelComponent from '@core/ExcelComponent'
 import TableSelection from './TableSelection'
-import {
-  $
-} from '../../core/dom';
-import {
-  createTable
-} from './table.template'
-import {
-  resizeHandler
-} from './table.resize'
-import {
-  isCeil,
-  isResize,
-  matrix
-} from './table.functions';
+import { $ } from '../../core/dom';
+import { createTable } from './table.template'
+import { resizeHandler } from './table.resize'
+import { isCeil, isResize, matrix, selectNext } from './table.functions';
 
 export default class Table extends ExcelComponent {
   static classes = 'table';
@@ -21,7 +11,7 @@ export default class Table extends ExcelComponent {
   constructor($root) {
     super($root, {
       name: "Table",
-      listeners: ['mousedown']
+      listeners: ['mousedown', 'keydown']
     })
   }
 
@@ -53,10 +43,7 @@ export default class Table extends ExcelComponent {
         return
 
       } else if (event.shiftKey) {
-        const currentGroup = this.selection.group;
-        const $currentCeil = currentGroup[currentGroup.length - 1]
-
-        const celectedIds = matrix($currentCeil, $ceil)
+        const celectedIds = matrix(this.selection.group[0], $ceil)
           .map(id =>
             this.$root.find(`[data-id="${id}"]`)
           )
@@ -65,6 +52,27 @@ export default class Table extends ExcelComponent {
       }
 
       this.selection.selectOne($ceil)
+    }
+  }
+
+  onKeydown(event) {
+    const KEYS = [
+      'Tab',
+      'Enter',
+      'ArrowUp',
+      'ArrowRight',
+      'ArrowDown',
+      'ArrowLeft'
+    ]
+    let key = event.key
+
+    if (KEYS.includes(key)) {
+      event.preventDefault()
+
+      const id = this.selection.current.id(true)
+      const nextCeilId = selectNext(key, id)
+      const $nextCeil = this.$root.find(nextCeilId)
+      this.selection.selectOne($nextCeil)
     }
   }
 

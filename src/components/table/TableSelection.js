@@ -2,7 +2,8 @@ export default class TableSelection {
   static className = 'selected'
 
   constructor() {
-    this.group = [];
+    this.group = []
+    this.current = null
   }
 
   selectOne($el) {
@@ -26,14 +27,15 @@ export default class TableSelection {
 
   selectGroup(arr) {
     this.unselectAll()
-    arr.forEach(a => this.select(a))
+    arr.forEach(this.select)
   }
 
-  select($el) {
+  select = ($el) => {
     this.group.push($el)
     $el.onFocus()
 
     $el.addClass(TableSelection.className)
+    this.current = $el
   }
 
   unselect($el) {

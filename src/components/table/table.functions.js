@@ -33,3 +33,31 @@ function range(start, end) {
     .fill('')
     .map((_, i) => +start + i)
 }
+
+export function selectNext(key, { row, col }) {
+  const MIN_VALUE = 0
+
+  switch (key) {
+    case 'ArrowUp':
+      row--
+      break
+    case 'ArrowRight':
+    case 'Tab':
+      col++
+      break
+    case 'ArrowDown':
+    case 'Enter':
+      row++
+      break
+    case 'ArrowLeft':
+      col--
+      break
+    default:
+      return
+  }
+
+  row = row < MIN_VALUE ? 0 : row
+  col = col < MIN_VALUE ? 0 : col
+
+  return `[data-id="${row}:${col}"]`
+}
