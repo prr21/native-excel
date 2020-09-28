@@ -38,20 +38,7 @@ export default class Table extends ExcelComponent {
     } else if (isCeil(event)) {
       const $ceil = $(event.target)
 
-      if (event.ctrlKey) {
-        this.selection.selectByOne($ceil)
-        return
-
-      } else if (event.shiftKey) {
-        const celectedIds = matrix(this.selection.group[0], $ceil)
-          .map(id =>
-            this.$root.find(`[data-id="${id}"]`)
-          )
-        this.selection.selectGroup(celectedIds)
-        return
-      }
-
-      this.selection.selectOne($ceil)
+      this.selectedWith(event, $ceil)
     }
   }
 
@@ -70,10 +57,27 @@ export default class Table extends ExcelComponent {
       event.preventDefault()
 
       const id = this.selection.current.id(true)
-      const nextCeilId = selectNext(key, id)
-      const $nextCeil = this.$root.find(nextCeilId)
-      this.selection.selectOne($nextCeil)
+      const $nextCeil = this.$root.find(selectNext(key, id))
+
+      this.selectedWith(event, $nextCeil)
     }
+  }
+
+  selectedWith(event, $ceil) {
+    if (event.ctrlKey) {
+      this.selection.selectByOne($ceil)
+      return
+
+    } else if (event.shiftKey) {
+      const celectedIds = matrix(this.selection.group[0], $ceil)
+        .map(id =>
+          this.$root.find(`[data-id="${id}"]`)
+        )
+      this.selection.selectGroup(celectedIds)
+      return
+    }
+
+    this.selection.selectOne($ceil)
   }
 
   toHTML() {
