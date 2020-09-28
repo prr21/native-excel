@@ -30,8 +30,6 @@ export default class Table extends ExcelComponent {
   }
 
   onMousedown(event) {
-    event.preventDefault()
-
     if (isResize(event)) {
       resizeHandler(this.$root, event)
 
@@ -53,7 +51,7 @@ export default class Table extends ExcelComponent {
     ]
     let key = event.key
 
-    if (KEYS.includes(key)) {
+    if (KEYS.includes(key) && (!event.shiftKey || key !== 'Enter' )) {
       event.preventDefault()
 
       const id = this.selection.current.id(true)

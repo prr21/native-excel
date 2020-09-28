@@ -16,7 +16,7 @@ export default class TableSelection {
       this.unselect($el)
 
       if (document.activeElement == $el.$el) {
-        this.offFocus($el)
+        $el.offFocus()
         this.group[0] ? this.group[0].onFocus() : null // сделать автофокус на последний эл
       }
 
