@@ -8,10 +8,11 @@ import { isCeil, isResize, matrix, selectNext } from './table.functions';
 export default class Table extends ExcelComponent {
   static classes = 'table';
 
-  constructor($root) {
+  constructor($root, options) {
     super($root, {
       name: "Table",
-      listeners: ['mousedown', 'keydown']
+      listeners: ['mousedown', 'keydown', 'input'],
+      ...options
     })
   }
 
@@ -22,11 +23,23 @@ export default class Table extends ExcelComponent {
   init() {
     super.init();
 
-    const initialCeil = '[data-id="0:0"]'
-    const $ceil = this.$root.find(initialCeil)
-
+    const $ceil = this.$root.find('[data-id="0:0"]')
     this.selection.select($ceil)
-    $ceil.onFocus()
+
+    this.$on('formula:input', value =>
+      this.selection.group.forEach($el => $el.text(value))
+    )
+    this.$on('formula:enter', () =>
+      this.selection.current.onFocus()
+    )
+  }
+
+  selectedCeil($ceil) {
+    this.$dispatch('table:select', $ceil)
+  }
+
+  onInput(event) {
+    this.$dispatch('table:input', $(event.target))
   }
 
   onMousedown(event) {
@@ -35,7 +48,8 @@ export default class Table extends ExcelComponent {
 
     } else if (isCeil(event)) {
       const $ceil = $(event.target)
-
+      
+      this.selectedCeil($ceil)
       this.selectedWith(event, $ceil)
     }
   }
@@ -51,7 +65,7 @@ export default class Table extends ExcelComponent {
     ]
     let key = event.key
 
-    if (KEYS.includes(key) && (!event.shiftKey || key !== 'Enter' )) {
+    if (KEYS.includes(key) && (!event.shiftKey || key !== 'Enter')) {
       event.preventDefault()
 
       const id = this.selection.current.id(true)
@@ -62,6 +76,9 @@ export default class Table extends ExcelComponent {
   }
 
   selectedWith(event, $ceil) {
+    if ($ceil.$el !== document.activeElement) {
+      event.preventDefault()
+    }
     if (event.ctrlKey) {
       this.selection.selectByOne($ceil)
       return

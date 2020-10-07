@@ -28,6 +28,14 @@ class Dom {
     return this.$el.outerHTML.trim()
   }
 
+  text(str) {
+    if (str !== undefined) {
+      this.$el.textContent = str.trim()
+      return this
+    }
+    return this.$el.textContent.trim()
+  }
+
   on(event, callback) {
     this.$el.addEventListener(event, callback)
   }

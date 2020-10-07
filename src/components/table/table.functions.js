@@ -10,10 +10,10 @@ export function isCeil(e) {
 }
 
 export function matrix($curent, $target) {
+  if (!$curent) return []
 
   let start = $curent.id(true)
   let end = $target.id(true)
-
 
   let rows = range(start.row, end.row)
   let cols = range(start.col, end.col)

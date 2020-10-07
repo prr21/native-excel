@@ -7,7 +7,7 @@ export class Observer {
     if (!Array.isArray(this.listeners[event])) {
       return false
     }
-    this.listeners[event].forEach(fn => fn(args))
+    this.listeners[event].forEach(listeners => listeners(...args))
     return true
   }
 
