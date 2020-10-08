@@ -3,15 +3,17 @@ import { Observer } from '@core/Observer'
 
 export default class Excel {
   constructor(selector, opt) {
-    this.$app = $(selector);
-    this.components = opt.components || [];
+    this.$app = $(selector)
+    this.store = opt.store
+    this.components = opt.components || []
     this.observer = new Observer()
   }
 
   getRoot() {
     const $root = $.create('div', 'excel');
     const componentOptions = {
-      observ: this.observer
+      observ: this.observer,
+      store: this.store
     }
 
     this.components = this.components.map(Component => {

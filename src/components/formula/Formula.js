@@ -26,7 +26,7 @@ export default class Formula extends ExcelComponent {
 
   onInput(event) {
     let value = event.target.textContent.trim()
-    this.$dispatch('formula:input', value)
+    this.$emmit('formula:input', value)
   }
 
   onKeydown(event) {
@@ -37,7 +37,7 @@ export default class Formula extends ExcelComponent {
     event.preventDefault()
     event.target.textContent = ''
 
-    this.$dispatch('formula:enter')
+    this.$emmit('formula:enter')
   }
 
   toHTML() {

@@ -1,8 +1,9 @@
+import { $ } from '../../core/dom';
 import ExcelComponent from '@core/ExcelComponent'
 import TableSelection from './TableSelection'
-import { $ } from '../../core/dom';
 import { createTable } from './table.template'
 import { resizeHandler } from './table.resize'
+import * as actions from '@/redux/actions'
 import { isCeil, isResize, matrix, selectNext } from './table.functions';
 
 export default class Table extends ExcelComponent {
@@ -35,20 +36,30 @@ export default class Table extends ExcelComponent {
   }
 
   selectedCeil($ceil) {
-    this.$dispatch('table:select', $ceil)
+    this.$emmit('table:select', $ceil)
+  }
+
+  async resizeFiled(event) {
+    try {
+      const data = await resizeHandler(this.$root, event)
+      this.$dispatch(actions.tableResize(data))
+
+    } catch (e) {
+      console.error(e)
+    }
   }
 
   onInput(event) {
-    this.$dispatch('table:input', $(event.target))
+    this.$emmit('table:input', $(event.target))
   }
 
   onMousedown(event) {
     if (isResize(event)) {
-      resizeHandler(this.$root, event)
+      this.resizeFiled(event)
 
     } else if (isCeil(event)) {
       const $ceil = $(event.target)
-      
+
       this.selectedCeil($ceil)
       this.selectedWith(event, $ceil)
     }
@@ -71,6 +82,7 @@ export default class Table extends ExcelComponent {
       const id = this.selection.current.id(true)
       const $nextCeil = this.$root.find(selectNext(key, id))
 
+      this.selectedCeil($nextCeil)
       this.selectedWith(event, $nextCeil)
     }
   }

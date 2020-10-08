@@ -8,7 +8,7 @@ export default class DomListener {
       const method = transformListener(listener);
 
       if (!this[method]) {
-        throw new Error(`Method in ${this.name || ''} error`)
+        throw new Error(`Method "${method}" in "${this.name || ''}" has mistake`)
       }
       this[method] = this[method].bind(this);
 

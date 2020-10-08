@@ -4,10 +4,20 @@ import Toolbar from '@/components/toolbar/Toolbar';
 import Formula from '@/components/formula/Formula';
 import Table from '@/components/table/Table';
 
-import './sass/index.sass';
+import { storage } from '@/core/utils'
+import { createStore } from '@core/createStore'
+import { rootReducer } from '@/redux/rootReducer'
 
+
+const store = createStore(rootReducer, storage('excel-state'))
+
+store.subscribe(state => storage('excel-state', state))
+
+
+import './sass/index.sass';
 const excel = new Excel('#app', {
-  components: [Header, Toolbar, Formula, Table]
+  components: [Header, Toolbar, Formula, Table],
+  store
 })
 
 excel.render();
