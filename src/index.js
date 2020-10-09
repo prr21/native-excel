@@ -6,15 +6,14 @@ import Table from '@/components/table/Table';
 
 import { storage } from '@/core/utils'
 import { createStore } from '@core/createStore'
+import { initialState } from '@/redux/initialState'
 import { rootReducer } from '@/redux/rootReducer'
+import './sass/index.sass';
 
-
-const store = createStore(rootReducer, storage('excel-state'))
+const store = createStore(rootReducer, initialState)
 
 store.subscribe(state => storage('excel-state', state))
 
-
-import './sass/index.sass';
 const excel = new Excel('#app', {
   components: [Header, Toolbar, Formula, Table],
   store

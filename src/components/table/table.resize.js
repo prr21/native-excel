@@ -6,11 +6,11 @@ export function resizeHandler($root, event) {
     const $resizer = $(event.target)
     const $parent = $resizer.parent('[data-type="resize"]');
 
-    const action = event.target.dataset.resize;
-    const colIndex = $parent.data.col;
+    const type = event.target.dataset.resize;
+    const fieldIndex = $parent.data[type];
     const coords = $parent.getCoords();
 
-    const sideWay = action === 'col' ? 'bottom' : 'right'
+    const sideWay = type === 'col' ? 'bottom' : 'right'
     let value
 
     $resizer.css({
@@ -19,7 +19,7 @@ export function resizeHandler($root, event) {
     })
 
     document.onmousemove = event => {
-      if (action === 'col') {
+      if (type === 'col') {
         const delta = event.clientX - coords.right + 3
         value = coords.width + delta
 
@@ -41,8 +41,8 @@ export function resizeHandler($root, event) {
     }
 
     document.onmouseup = () => {
-      if (action === 'col') {
-        const cells = $root.findAll(`[data-col="${colIndex}"]`);
+      if (type === 'col') {
+        const cells = $root.findAll(`[data-col="${fieldIndex}"]`);
         cells.forEach(e => e.style.width = value + 'px')
 
       } else $parent.css({ height: value + 'px' })
@@ -54,7 +54,8 @@ export function resizeHandler($root, event) {
       })
 
       resolve({
-        id: colIndex,
+        id: fieldIndex,
+        type,
         value
       })
 
