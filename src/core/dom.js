@@ -28,6 +28,11 @@ class Dom {
     return this.$el.outerHTML.trim()
   }
 
+  clear(){
+    this.$el.innerHTML = '';
+    return this
+  }
+
   text(str) {
     if (str !== undefined) {
       this.$el.textContent = str.trim()
